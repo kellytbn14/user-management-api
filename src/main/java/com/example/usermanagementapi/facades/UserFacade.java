@@ -1,7 +1,9 @@
 package com.example.usermanagementapi.facades;
 
+import com.example.usermanagementapi.dtos.ChangeActiveStatusUserRequest;
 import com.example.usermanagementapi.dtos.CreateUserRequest;
 import com.example.usermanagementapi.dtos.CreateUserResponse;
+import com.example.usermanagementapi.dtos.UserDto;
 import com.example.usermanagementapi.entities.Phone;
 import com.example.usermanagementapi.entities.User;
 import com.example.usermanagementapi.mappers.UserMapper;
@@ -85,5 +87,15 @@ public class UserFacade {
                         .lastUpdate(LocalDateTime.now())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public UserDto changeActiveStatus(ChangeActiveStatusUserRequest request) {
+        CustomUtilService.ValidateRequired(request.getUserId());
+        CustomUtilService.ValidateRequired(request.getActive());
+
+        User user = userService.findById(request.getUserId());
+        user.setIsActive(request.getActive());
+        User userUpdated = userService.update(user);
+        return userMapper.toDto(userUpdated);
     }
 }
