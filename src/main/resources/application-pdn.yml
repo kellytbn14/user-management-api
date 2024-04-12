@@ -26,3 +26,7 @@ logging:
   level:
     root: info
     org.springframework: info
+
+custom:
+  re-email: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+  re-pass: (?=.*[A-Za-z])(?=.*\d)^[\w\d]+$
