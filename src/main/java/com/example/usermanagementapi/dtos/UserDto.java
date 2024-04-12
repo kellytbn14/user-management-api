@@ -18,6 +18,9 @@ public class UserDto {
     private String email;
 
     @NotNull
+    private Boolean isActive;
+
+    @NotNull
     private String password;
 
     @NotNull
@@ -25,4 +28,7 @@ public class UserDto {
 
     @NotNull
     private LocalDateTime lastUpdate;
+
+    @NotNull
+    private LocalDateTime lastLogin;
 }

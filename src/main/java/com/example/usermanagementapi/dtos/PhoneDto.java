@@ -1,6 +1,5 @@
 package com.example.usermanagementapi.dtos;
 
-import com.example.usermanagementapi.entities.User;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -22,14 +21,8 @@ public class PhoneDto {
     @NotNull
     private String countryCode;
 
-    @NotNull
-    private String userId;
-
-    private User user;
-
-    @NotNull
+    private UUID userId;
+    private UserDto user;
     private LocalDateTime createdDate;
-
-    @NotNull
     private LocalDateTime lastUpdate;
 }

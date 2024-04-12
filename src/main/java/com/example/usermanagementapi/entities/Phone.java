@@ -1,6 +1,9 @@
 package com.example.usermanagementapi.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +13,10 @@ import java.util.UUID;
 
 @Table(name = "phones")
 @Entity
+@AllArgsConstructor
+@Builder
 @Data
+@NoArgsConstructor
 public class Phone {
 
     @Id
@@ -33,7 +39,7 @@ public class Phone {
 
     @NotNull
     @Column(name = "user_id", nullable = false)
-    private String userId;
+    private UUID userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)

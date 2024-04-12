@@ -1,6 +1,9 @@
 package com.example.usermanagementapi.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +13,10 @@ import java.util.UUID;
 
 @Table(name = "users")
 @Entity
+@AllArgsConstructor
+@Builder
 @Data
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -32,10 +38,18 @@ public class User {
     private String password;
 
     @NotNull
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive;
+
+    @NotNull
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
     @NotNull
     @Column(name = "last_update", nullable = false)
     private LocalDateTime lastUpdate;
+
+    @NotNull
+    @Column(name = "last_login", nullable = false)
+    private LocalDateTime lastLogin;
 }
