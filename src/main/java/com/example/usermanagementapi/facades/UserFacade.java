@@ -1,9 +1,6 @@
 package com.example.usermanagementapi.facades;
 
-import com.example.usermanagementapi.dtos.ChangeActiveStatusUserRequest;
-import com.example.usermanagementapi.dtos.CreateUserRequest;
-import com.example.usermanagementapi.dtos.CreateUserResponse;
-import com.example.usermanagementapi.dtos.UserDto;
+import com.example.usermanagementapi.dtos.*;
 import com.example.usermanagementapi.entities.Phone;
 import com.example.usermanagementapi.entities.User;
 import com.example.usermanagementapi.mappers.UserMapper;
@@ -12,6 +9,8 @@ import com.example.usermanagementapi.services.UserService;
 import com.example.usermanagementapi.utils.CustomUtilService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -97,5 +96,9 @@ public class UserFacade {
         user.setIsActive(request.getActive());
         User userUpdated = userService.update(user);
         return userMapper.toDto(userUpdated);
+    }
+
+    public Page<FilterUserResponse> filterUsersPage(FilterUserRequest filter, Pageable pageable) {
+        return userService.filterUsersPage(filter, pageable);
     }
 }

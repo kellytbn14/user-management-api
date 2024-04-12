@@ -22,7 +22,7 @@ public class PhoneDto {
     private String countryCode;
 
     private UUID userId;
-    private UserDto user;
+
     private LocalDateTime createdDate;
     private LocalDateTime lastUpdate;
 }

@@ -1,11 +1,15 @@
 package com.example.usermanagementapi.services;
 
+import com.example.usermanagementapi.dtos.FilterUserRequest;
+import com.example.usermanagementapi.dtos.FilterUserResponse;
 import com.example.usermanagementapi.entities.User;
 import com.example.usermanagementapi.handlers.exceptions.DataDuplicateException;
 import com.example.usermanagementapi.handlers.exceptions.DataNotFoundException;
 import com.example.usermanagementapi.repositories.UserRepository;
 import com.example.usermanagementapi.utils.CustomUtilService;
 import com.example.usermanagementapi.utils.MessageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -49,5 +53,9 @@ public class UserService {
     public void validateUser(UUID id) {
         repository.findById(id).orElseThrow(() ->
                 new DataNotFoundException(MessageResponse.USER_NOT_FOUND_EXCEPTION));
+    }
+
+    public Page<FilterUserResponse> filterUsersPage(FilterUserRequest filter, Pageable pageable) {
+        return repository.filterUsersPage(filter, pageable);
     }
 }
