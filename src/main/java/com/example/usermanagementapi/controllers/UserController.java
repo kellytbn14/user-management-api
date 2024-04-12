@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -74,5 +76,17 @@ public class UserController {
             @RequestBody FilterUserRequest filter, Pageable pageable) {
         var users = facade.filterUsersPage(filter, pageable);
         return ResponseEntity.ok(new StandardResponse<>(users));
+    }
+
+    @GetMapping("/user-phones/{userId}")
+    @Operation(summary = "Search user with phones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Data searched successfully"),
+            @ApiResponse(responseCode = "400", description = "The request is invalid"),
+            @ApiResponse(responseCode = "500", description = "Internal error processing response"),
+    })
+    public ResponseEntity<StandardResponse<UserDto>> getUserWithPhones(@PathVariable UUID userId) {
+        var result = facade.getUserWithPhones(userId);
+        return ResponseEntity.ok(new StandardResponse<>(result));
     }
 }

@@ -3,6 +3,7 @@ package com.example.usermanagementapi.facades;
 import com.example.usermanagementapi.dtos.*;
 import com.example.usermanagementapi.entities.Phone;
 import com.example.usermanagementapi.entities.User;
+import com.example.usermanagementapi.mappers.PhoneMapper;
 import com.example.usermanagementapi.mappers.UserMapper;
 import com.example.usermanagementapi.services.PhoneService;
 import com.example.usermanagementapi.services.UserService;
@@ -17,6 +18,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,11 +28,13 @@ public class UserFacade {
     private final UserMapper userMapper;
     private final UserService userService;
     private final PhoneService phoneService;
+    private final PhoneMapper phoneMapper;
 
-    public UserFacade(UserMapper userMapper, UserService userService, PhoneService phoneService) {
+    public UserFacade(UserMapper userMapper, UserService userService, PhoneService phoneService, PhoneMapper phoneMapper) {
         this.userMapper = userMapper;
         this.userService = userService;
         this.phoneService = phoneService;
+        this.phoneMapper = phoneMapper;
     }
 
     public CreateUserResponse createUser(CreateUserRequest request) {
@@ -100,5 +104,18 @@ public class UserFacade {
 
     public Page<FilterUserResponse> filterUsersPage(FilterUserRequest filter, Pageable pageable) {
         return userService.filterUsersPage(filter, pageable);
+    }
+
+    public UserDto getUserWithPhones(UUID userId) {
+        CustomUtilService.ValidateRequired(userId);
+
+        User user = userService.findById(userId);
+        List<Phone> phones = phoneService.findAllByUserId(user.getId());
+
+        UserDto userDto = userMapper.toDto(user);
+        List<PhoneDto> phonesDto = phoneMapper.toDto(phones);
+        userDto.setPhones(phonesDto);
+
+        return userDto;
     }
 }
