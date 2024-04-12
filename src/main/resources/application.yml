@@ -1,0 +1,20 @@
+# Server properties
+server:
+  servlet:
+    context-path: /user-management-api
+# Spring properties
+spring:
+  # Dev is active by default. This value can be overwritten by java arg param 
+  profiles:
+    active: dev
+  application:
+    name: User Management API
+  messages:
+    basename: bundles/apiLanguageBundle
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+springdoc:
+  swagger-ui:
+    enabled: true
+
