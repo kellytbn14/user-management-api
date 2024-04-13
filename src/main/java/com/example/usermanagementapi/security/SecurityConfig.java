@@ -26,7 +26,7 @@ public class SecurityConfig {
             "/v3/api-docs/**", "/configuration/ui", "/configuration/security",
             "/swagger-resources/**", "/swagger-ui/index.html", "/swagger-ui.index.html", "/swagger-ui/**", "/v3/api-docs/swagger-config/**",
             "/webjars/**",
-            "/user/authenticate", "/user/register"};
+            "/user/authenticate", "/user/register", "/h2-console/**"};
 
 
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -57,6 +57,7 @@ public class SecurityConfig {
         return http
                 .csrf()
                 .disable()
+                .headers().frameOptions().disable().and()
                 .authorizeRequests()
                 .antMatchers(AUTH_LIST).permitAll()
                 .anyRequest()

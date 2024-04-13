@@ -22,7 +22,7 @@ public class Phone {
     @Id
     @GeneratedValue(generator = "uuid-hibernate-generator")
     @GenericGenerator(name = "uuid-hibernate-generator", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id")
+    @Column(name = "id", length = 16)
     private UUID id;
 
     @NotNull
@@ -38,7 +38,7 @@ public class Phone {
     private String countryCode;
 
     @NotNull
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, length = 16)
     private UUID userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
