@@ -44,6 +44,11 @@ public class UserService {
                 new DataNotFoundException(MessageResponse.USER_NOT_FOUND_EXCEPTION));
     }
 
+    public User findByEmail(String email) {
+        return repository.findByEmail(email).orElseThrow(() ->
+                new DataNotFoundException(MessageResponse.USER_NOT_FOUND_EXCEPTION));
+    }
+
     public void validateEmailExists(String email) {
         if (repository.findByEmail(email).isPresent()) {
             throw new DataDuplicateException(MessageResponse.USER_ALREADY_EXISTS);

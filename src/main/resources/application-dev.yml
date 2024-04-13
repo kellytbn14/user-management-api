@@ -30,3 +30,10 @@ logging:
 custom:
   re-email: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
   re-pass: (?=.*[A-Za-z])(?=.*\d)^[\w\d]+$
+  jwt:
+    secret:
+      key: b08c3d528d8a0fd6d013cf9b8af36e4680cdd3a13a6d70c4b7b25a792d1ec476
+    expire:
+      time: 1800000
+
+

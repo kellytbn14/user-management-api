@@ -3,15 +3,23 @@ package com.example.usermanagementapi.facades;
 import com.example.usermanagementapi.dtos.*;
 import com.example.usermanagementapi.entities.Phone;
 import com.example.usermanagementapi.entities.User;
+import com.example.usermanagementapi.handlers.exceptions.BusinessException;
 import com.example.usermanagementapi.mappers.PhoneMapper;
 import com.example.usermanagementapi.mappers.UserMapper;
+import com.example.usermanagementapi.security.jwt.TokenUtils;
 import com.example.usermanagementapi.services.PhoneService;
 import com.example.usermanagementapi.services.UserService;
 import com.example.usermanagementapi.utils.CustomUtilService;
+import com.example.usermanagementapi.utils.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,6 +29,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.example.usermanagementapi.security.Constants.BEARER;
+
 @Service
 @Transactional
 public class UserFacade {
@@ -29,12 +39,14 @@ public class UserFacade {
     private final UserService userService;
     private final PhoneService phoneService;
     private final PhoneMapper phoneMapper;
+    private final AuthenticationManager authenticationManager;
 
-    public UserFacade(UserMapper userMapper, UserService userService, PhoneService phoneService, PhoneMapper phoneMapper) {
+    public UserFacade(UserMapper userMapper, UserService userService, PhoneService phoneService, PhoneMapper phoneMapper, AuthenticationManager authenticationManager) {
         this.userMapper = userMapper;
         this.userService = userService;
         this.phoneService = phoneService;
         this.phoneMapper = phoneMapper;
+        this.authenticationManager = authenticationManager;
     }
 
     public CreateUserResponse createUser(CreateUserRequest request) {
@@ -51,7 +63,7 @@ public class UserFacade {
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(new BCryptPasswordEncoder().encode(request.getPassword()))
                 .isActive(Boolean.TRUE)
                 .build();
 
@@ -117,5 +129,31 @@ public class UserFacade {
         userDto.setPhones(phonesDto);
 
         return userDto;
+    }
+
+    public UserAuthDto authentication(UserAuthRequest request) {
+        CustomUtilService.ValidateRequired(request);
+        CustomUtilService.ValidateRequired(request.getEmail());
+        CustomUtilService.ValidateRequired(request.getPassword());
+        User user = userService.findByEmail(request.getEmail());
+
+        if (!user.getIsActive()) {
+            throw new BusinessException(MessageResponse.USER_NOT_ACTIVE);
+        }
+
+        Authentication authentication = this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final var jwt = TokenUtils.generateToken(authentication);
+
+        UserAuthDto userAuth = new UserAuthDto();
+        userAuth.setTokenType(BEARER);
+        userAuth.setToken(jwt);
+
+        user.setLastLogin(LocalDateTime.now());
+        userService.update(user);
+        return userAuth;
     }
 }

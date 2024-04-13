@@ -11,7 +11,8 @@ public enum MessageResponse {
 
     USER_ALREADY_EXISTS("USER_ALREADY_EXISTS", "The email is already registered"),
     USER_NOT_FOUND_EXCEPTION("USER_NOT_FOUND_EXCEPTION", "User could not be found"),
-    USER_NOT_ACTIVE("USER_NOT_ACTIVE", "The user is not active.");
+    USER_NOT_ACTIVE("USER_NOT_ACTIVE", "The user is not active."),
+    AUTHENTICATION_ERROR("AUTHENTICATION_ERROR", "Authentication error");
 
     private final String message;
     private final String description;

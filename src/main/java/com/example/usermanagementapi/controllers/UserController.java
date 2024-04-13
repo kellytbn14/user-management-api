@@ -89,4 +89,16 @@ public class UserController {
         var result = facade.getUserWithPhones(userId);
         return ResponseEntity.ok(new StandardResponse<>(result));
     }
+
+    @PostMapping("/authenticate")
+    @Operation(summary = "Login")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Data updated successfully"),
+            @ApiResponse(responseCode = "400", description = "The request is invalid"),
+            @ApiResponse(responseCode = "500", description = "Internal error processing response"),
+    })
+    public ResponseEntity<StandardResponse<UserAuthDto>> authentication(@RequestBody UserAuthRequest request) {
+        var user = facade.authentication(request);
+        return ResponseEntity.ok(new StandardResponse<>(user));
+    }
 }

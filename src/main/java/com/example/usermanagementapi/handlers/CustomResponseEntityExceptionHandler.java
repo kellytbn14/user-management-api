@@ -1,7 +1,6 @@
 package com.example.usermanagementapi.handlers;
 
 
-
 import com.example.usermanagementapi.handlers.exceptions.*;
 import com.example.usermanagementapi.utils.StandardResponse;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -73,7 +72,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<StandardResponse<String>> handleIllegalArgumentException(HttpServletRequest request, DataIntegrityViolationException ex) {
+    protected ResponseEntity<StandardResponse<String>> handleDataIntegrityViolationException(HttpServletRequest request, DataIntegrityViolationException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardResponse<String> response = new StandardResponse<>(ex.getMessage());
         return new ResponseEntity<>(response, status);
