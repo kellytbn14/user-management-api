@@ -43,11 +43,11 @@ en [swagger-ui](http://localhost:8080/user-management-api/swagger-ui/index.html)
 
 # Solution diagram
 
-![solution diagram.jpg](assets/solution diagram.jpg)
+![solution diagram.jpg](assets/solution_diagram.jpg)
 
 # Entity relationship diagram
 
-![er diagram.jpg](assets/er diagram.jpg)
+![er diagram.jpg](assets/er_diagram.jpg)
 
 ## Installation
 
