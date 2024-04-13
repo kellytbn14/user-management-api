@@ -2,10 +2,12 @@ package com.example.usermanagementapi.handlers;
 
 
 import com.example.usermanagementapi.handlers.exceptions.*;
+import com.example.usermanagementapi.utils.MessageResponse;
 import com.example.usermanagementapi.utils.StandardResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -75,6 +77,13 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     protected ResponseEntity<StandardResponse<String>> handleDataIntegrityViolationException(HttpServletRequest request, DataIntegrityViolationException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardResponse<String> response = new StandardResponse<>(ex.getMessage());
+        return new ResponseEntity<>(response, status);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    protected ResponseEntity<StandardResponse<String>> handleBadCredentialsException(HttpServletRequest request, BadCredentialsException ex) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        StandardResponse<String> response = new StandardResponse<>(MessageResponse.AUTHENTICATION_ERROR.getMessage(), ex.getMessage());
         return new ResponseEntity<>(response, status);
     }
 
