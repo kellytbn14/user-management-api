@@ -58,7 +58,7 @@ $ gradle build
 ## Run test
 
 ```bash
-$ gradle test
+$  .\gradlew.bat test
 ```
 
 ## Execution with Docker
