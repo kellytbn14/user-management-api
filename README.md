@@ -26,14 +26,14 @@ API con autenticación.
 Actualiza las configuraciones de la base de datos en el archivo `src/main/resources/application-${perfil}.yml` con las
 credenciales de la base de datos.
 
-```properties
+```yaml
 spring:
-datasource:
-type:com.zaxxer.hikari.HikariDataSource
-url:jdbc:postgresql://${HOST}:${PORT}/${DBNAME}
-driver-class-name:org.postgresql.Driver
-username:${USER}
-password:${PASS}
+  datasource:
+    type:com.zaxxer.hikari.HikariDataSource
+    url:jdbc:postgresql://${HOST}:${PORT}/${DBNAME}
+    driver-class-name:org.postgresql.Driver
+    username:${USER}
+    password:${PASS}
 ```
 
 ## Swagger API documentation
