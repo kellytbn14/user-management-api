@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -69,11 +68,11 @@ public class UserController {
             @Parameter(in = ParameterIn.QUERY, description = "Number of records per page.", name = "size",
                     content = @Content(schema = @Schema(type = "integer", defaultValue = "20"))),
             @Parameter(in = ParameterIn.QUERY, description = "Sorting criteria in the format: property(,asc|desc). "
-                    + "Default sort order is ascending. " + "Multiple sort criteria are supported.", name = "sort",
-                    content = @Content(array = @ArraySchema(schema = @Schema(type = "string"))))
+                    + "Default sort order is ascending. " + "Multiple sort criteria are supported. Example: name,asc", name = "sort",
+                    content = @Content(schema = @Schema(type = "string", defaultValue = "name,asc")))
     })
     public ResponseEntity<StandardResponse<Page<FilterUserResponse>>> filterUsersPage(
-            @RequestBody FilterUserRequest filter, Pageable pageable) {
+            @RequestBody FilterUserRequest filter, @Parameter(hidden = true) Pageable pageable) {
         var users = facade.filterUsersPage(filter, pageable);
         return ResponseEntity.ok(new StandardResponse<>(users));
     }
