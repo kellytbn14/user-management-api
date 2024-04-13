@@ -17,4 +17,8 @@ public class FilterUserResponse {
     private LocalDateTime createdDate;
     private LocalDateTime lastUpdate;
     private LocalDateTime lastLogin;
+
+    public FilterUserResponse() {
+
+    }
 }
