@@ -60,3 +60,20 @@ $ gradle build
 ```bash
 $ gradle test
 ```
+
+## Execution with Docker
+
+1. Asegúrate de tener Docker instalado en tu máquina.
+2. Desde la raíz del proyecto, construye la imagen de Docker ejecutando el siguiente comando:
+
+```bash
+docker build --tag user-management-api-i --build-arg PASS=<password> --build-arg USER=<user> --build-arg HOST=<host> --build-arg PORT=<port> --build-arg DBNAME=<name> .
+```
+
+3. Después de que se haya construido la imagen, ejecuta el contenedor con el siguiente comando:
+
+```bash
+docker run --name user-management-api-i-con -d -p 8080:8080 user-management-api-i:latest
+```
+
+La API ahora estará en funcionamiento y será accesible en http://localhost:8080 desde tu máquina local.

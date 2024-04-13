@@ -53,6 +53,12 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
+tasks {
+    bootJar {
+        archiveFileName.set("user-management-api.jar")
+    }
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
