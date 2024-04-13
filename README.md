@@ -5,7 +5,7 @@
 Proyecto API Rest en Java con Spring boot que permite el registro y autenticación de usuarios. El API está documentada
 con Swagger.
 
-La base de datos usada es PostgreSQL. Para la seguridad se implementa Spring Security con JWT que garantiza el acceso al
+La base de datos usada es H2. Para la seguridad se implementa Spring Security con JWT que garantiza el acceso al
 API con autenticación.
 
 ## Previous requirements
@@ -18,12 +18,12 @@ API con autenticación.
 - Spring boot
 - Spring Security
 - PostgreSQL
+- H2
 - JWT
 - Open API
 
-## Database configuration
-
-Actualiza las configuraciones de la base de datos en el archivo `src/main/resources/application-${perfil}.yml` con las
+## PostgreSQL configuration
+En caso de preferir PostgreSQL, actualiza las configuraciones de la base de datos en el archivo `src/main/resources/application-${perfil}.yml` con las
 credenciales de la base de datos.
 
 ```yaml
