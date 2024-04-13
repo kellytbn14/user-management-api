@@ -67,6 +67,12 @@ $  .\gradlew.bat test
 2. Desde la raíz del proyecto, construye la imagen de Docker ejecutando el siguiente comando:
 
 ```bash
+docker build --tag user-management-api-i -f Dockerfile.mem .
+```
+
+En el caso de usar PostgreSQL, usa el siguiente
+
+```bash
 docker build --tag user-management-api-i --build-arg PASS=<password> --build-arg USER=<user> --build-arg HOST=<host> --build-arg PORT=<port> --build-arg DBNAME=<name> .
 ```
 
